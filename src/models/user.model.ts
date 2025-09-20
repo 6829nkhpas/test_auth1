@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { unique } from "next/dist/build/utils";
 
 const userSchema = new mongoose.Schema({
     username:{
@@ -13,6 +12,35 @@ const userSchema = new mongoose.Schema({
         required:[true, "please provide the email"],
         unique: true,
         trim: true,
-    }
+    },
+    password:{
+        type: String,
+        required: [true, "please provide the password"],
+        minlength: [8, "password must be at least 8 characters long"],
+        trim: true,
+    },
+    isVerified:{
+        type: Boolean,
+        default: false,
+    },
+    isAdmin:{
+        type: Boolean,
+        default: false,
+    },
+    forgotPasswordToken:{
+        type: String,
+    },
+    forgotPasswordTokenExpiry:{
+        type: Date,
+    },
+    verifyToken:{
+        type: String,
+    },
+    verifyTokenExpiry:{
+        type: Date,
+    },
+
 
  });
+ const user = mongoose.models.users || mongoose.model("users",userSchema);
+ export default user;
